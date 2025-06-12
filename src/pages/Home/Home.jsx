@@ -4,8 +4,8 @@ import "./Home.css";
 function Home() {
   return (
     <div className="home-page">
-      <h1>Bienvenue sur le Marvel Explorer !</h1>
-      {/* contenu d'accueil ici */}
+      <h1>Welcome to Marvel Explorer!</h1>
+      {/* home content here */}
     </div>
   );
 }

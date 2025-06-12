@@ -16,13 +16,13 @@ function Header() {
       <nav className="header-nav">
         <ul>
           <li className={location.pathname === "/characters" ? "active" : ""}>
-            <Link to="/characters">Personnages</Link>
+            <Link to="/characters">Characters</Link>
           </li>
           <li className={location.pathname === "/comics" ? "active" : ""}>
             <Link to="/comics">Comics</Link>
           </li>
           <li className={location.pathname === "/favorites" ? "active" : ""}>
-            <Link to="/favorites">Favoris</Link>
+            <Link to="/favorites">Favorites</Link>
           </li>
         </ul>
       </nav>

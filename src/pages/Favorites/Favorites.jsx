@@ -4,8 +4,8 @@ import "./Favorites.css";
 function Favorites() {
   return (
     <div className="favorites-page">
-      <h1>Favoris</h1>
-      {/* contenu des favoris ici */}
+      <h1>Favorites</h1>
+      {/* favorites content here */}
     </div>
   );
 }
