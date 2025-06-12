@@ -1,23 +1,17 @@
 .header {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    box-shadow: 0 4px 20px rgba(237, 29, 36, 0.3);
-    padding: 0 2rem;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-    border-bottom: 2px solid #ed1d24;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 1rem 2rem;
+    justify-content: flex-start;
+    padding: 0 2rem;
+    background: #222;
+    height: 80px;
+    position: relative;
 }
   
 .header-logo {
     flex-shrink: 0;
     transition: transform 0.3s ease;
+    margin-right: 2rem;
 }
   
 .header-logo:hover {
@@ -35,6 +29,14 @@
   
 .header-logo:hover img {
     filter: drop-shadow(0 4px 12px rgba(237, 29, 36, 0.6));
+}
+  
+.searchBox {
+    margin-right: 1.5rem;
+}
+  
+.header-nav {
+    margin-left: 0;
 }
   
 .header-nav ul {
@@ -111,4 +113,10 @@
     color: #ed1d24;
     background: rgba(237, 29, 36, 0.15);
     box-shadow: 0 2px 8px rgba(237, 29, 36, 0.3);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
 }

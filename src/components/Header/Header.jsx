@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import marvelLogo from "../../assets/Marvel-logo.png";
 import "./Header.css";
+import SearchBar from "../SearchBar/SearchBar";
 
 function Header() {
   const location = useLocation();
@@ -13,19 +14,22 @@ function Header() {
           <img src={marvelLogo} alt="Marvel Logo" />
         </Link>
       </div>
-      <nav className="header-nav">
-        <ul>
-          <li className={location.pathname === "/characters" ? "active" : ""}>
-            <Link to="/characters">Characters</Link>
-          </li>
-          <li className={location.pathname === "/comics" ? "active" : ""}>
-            <Link to="/comics">Comics</Link>
-          </li>
-          <li className={location.pathname === "/favorites" ? "active" : ""}>
-            <Link to="/favorites">Favorites</Link>
-          </li>
-        </ul>
-      </nav>
+      <div className="header-actions">
+        <SearchBar />
+        <nav className="header-nav">
+          <ul>
+            <li className={location.pathname === "/characters" ? "active" : ""}>
+              <Link to="/characters">Characters</Link>
+            </li>
+            <li className={location.pathname === "/comics" ? "active" : ""}>
+              <Link to="/comics">Comics</Link>
+            </li>
+            <li className={location.pathname === "/favorites" ? "active" : ""}>
+              <Link to="/favorites">Favorites</Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </header>
   );
 }
