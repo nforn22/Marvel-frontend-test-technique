@@ -9,7 +9,7 @@ import "./Characters.css";
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 const PAGE_SIZE = 100;
 
-function Characters() {
+function Characters({ search }) {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -22,7 +22,11 @@ function Characters() {
         setIsLoading(true);
         setError(null);
         const skip = (page - 1) * PAGE_SIZE;
-        const response = await axios.get(`${API_URL}/characters?limit=${PAGE_SIZE}&skip=${skip}`);
+        let url = `${API_URL}/characters?limit=${PAGE_SIZE}&skip=${skip}`;
+        if (search) {
+          url += `&name=${encodeURIComponent(search)}`;
+        }
+        const response = await axios.get(url);
         setCharacters(response.data.results || []);
       } catch (error) {
         setError(
@@ -35,7 +39,7 @@ function Characters() {
       }
     };
     fetchCharacters();
-  }, [page]);
+  }, [page, search]);
 
   const handleCardClick = (characterId) => {
     navigate(`/characters/${characterId}/comics`);

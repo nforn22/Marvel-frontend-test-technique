@@ -4,7 +4,7 @@ import marvelLogo from "../../assets/Marvel-logo.png";
 import "./Header.css";
 import SearchBar from "../SearchBar/SearchBar";
 
-function Header() {
+function Header({ onSearch }) {
   const location = useLocation();
 
   return (
@@ -15,7 +15,7 @@ function Header() {
         </Link>
       </div>
       <div className="header-actions">
-        <SearchBar />
+        <SearchBar onSearch={onSearch} />
         <nav className="header-nav">
           <ul>
             <li className={location.pathname === "/characters" ? "active" : ""}>
