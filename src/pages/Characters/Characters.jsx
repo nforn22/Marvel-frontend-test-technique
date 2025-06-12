@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Circles } from "react-loader-spinner";
+import { useNavigate } from "react-router-dom";
 import "./Characters.css";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
@@ -9,6 +10,7 @@ function Characters() {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCharacters = async () => {
@@ -30,6 +32,10 @@ function Characters() {
     fetchCharacters();
   }, []);
 
+  const handleCardClick = (characterId) => {
+    navigate(`/characters/${characterId}/comics`);
+  };
+
   return (
     <div className="characters-page">
       <h1>Marvel Characters</h1>
@@ -42,7 +48,12 @@ function Characters() {
       ) : (
         <div className="characters-grid">
           {characters.map((character) => (
-            <div key={character._id} className="character-card">
+            <div
+              key={character._id}
+              className="character-card"
+              onClick={() => handleCardClick(character._id)}
+              style={{ cursor: "pointer" }}
+            >
               <img
                 src={`${character.thumbnail.path}/portrait_xlarge.${character.thumbnail.extension}`}
                 alt={character.name}
