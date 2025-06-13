@@ -14,6 +14,7 @@ function Characters({ search }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
+  const [count, setCount] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,6 +29,7 @@ function Characters({ search }) {
         }
         const response = await axios.get(url);
         setCharacters(response.data.results || []);
+        setCount(response.data.count || 0);
       } catch (error) {
         setError(
           error.response?.data?.message ||
@@ -45,8 +47,7 @@ function Characters({ search }) {
     navigate(`/characters/${characterId}/comics`);
   };
 
-  // exemple : 
-  const totalPages = 3;
+  const totalPages = Math.ceil(count / PAGE_SIZE);
 
   const handleChange = (event, value) => {
     setPage(value);
