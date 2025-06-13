@@ -5,12 +5,13 @@ import { useNavigate } from "react-router-dom";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import captainAmericaIcon from "../../assets/icons8-captain-america-64.png";
+import SearchBar from "../../components/SearchBar/SearchBar";
 import "./Characters.css";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 const PAGE_SIZE = 100;
 
-function Characters({ search }) {
+function Characters() {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,6 +22,7 @@ function Characters({ search }) {
     const stored = localStorage.getItem("favoriteCharacters");
     return stored ? JSON.parse(stored) : [];
   });
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -72,9 +74,17 @@ function Characters({ search }) {
     setPage(value);
   };
 
+  const handleSearch = (value) => {
+    setSearch(value);
+    setPage(1);
+  };
+
   return (
     <div className="characters-page">
       <h1>Marvel Characters</h1>
+      <div style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
+        <SearchBar onSearch={handleSearch} placeholder="Search characters..." />
+      </div>
       {isLoading ? (
         <div className="loader-container">
           <Circles height={60} width={60} color="#e62429" ariaLabel="circles-loading" visible={true} />

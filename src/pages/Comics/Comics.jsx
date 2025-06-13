@@ -5,12 +5,13 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import captainAmericaIcon from "../../assets/icons8-captain-america-64.png";
 import { useNavigate } from "react-router-dom";
+import SearchBar from "../../components/SearchBar/SearchBar";
 import "./Comics.css";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 const PAGE_SIZE = 100;
 
-function Comics({ search }) {
+function Comics() {
   const [comics, setComics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -20,6 +21,7 @@ function Comics({ search }) {
     const stored = localStorage.getItem("favoriteComics");
     return stored ? JSON.parse(stored) : [];
   });
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -53,10 +55,10 @@ function Comics({ search }) {
   }, [favorites]);
 
   const handleToggleFavorite = (comicId) => {
-    setFavorites((prev) =>
-      prev.includes(comicId)
-        ? prev.filter((id) => id !== comicId)
-        : [...prev, comicId]
+    setFavorites((previous) =>
+      previous.includes(comicId)
+        ? previous.filter((id) => id !== comicId)
+        : [...previous, comicId]
     );
   };
 
@@ -70,9 +72,17 @@ function Comics({ search }) {
     setPage(value);
   };
 
+  const handleSearch = (value) => {
+    setSearch(value);
+    setPage(1);
+  };
+
   return (
     <div className="comics-page">
       <h1>Marvel Comics</h1>
+      <div style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
+        <SearchBar onSearch={handleSearch} placeholder="Search comics..." />
+      </div>
       {isLoading ? (
         <div className="loader-container">
           <Circles height={60} width={60} color="#e62429" ariaLabel="circles-loading" visible={true} />
@@ -93,7 +103,7 @@ function Comics({ search }) {
                 />
                 <button
                   className="favorite-btn"
-                  onClick={e => { e.stopPropagation(); handleToggleFavorite(comic._id); }}
+                  onClick={event => { event.stopPropagation(); handleToggleFavorite(comic._id); }}
                   style={{
                     position: "absolute",
                     top: 8,

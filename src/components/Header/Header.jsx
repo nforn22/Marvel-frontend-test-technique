@@ -2,9 +2,8 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import marvelLogo from "../../assets/Marvel-logo.png";
 import "./Header.css";
-import SearchBar from "../SearchBar/SearchBar";
 
-function Header({ onSearch }) {
+function Header() {
   const location = useLocation();
 
   return (
@@ -15,7 +14,6 @@ function Header({ onSearch }) {
         </Link>
       </div>
       <div className="header-actions">
-        <SearchBar onSearch={onSearch} />
         <nav className="header-nav">
           <ul>
             <li className={location.pathname === "/characters" ? "active" : ""}>
