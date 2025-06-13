@@ -25,6 +25,12 @@ function Header() {
             <li className={location.pathname === "/favorites" ? "active" : ""}>
               <Link to="/favorites">Favorites</Link>
             </li>
+            <li>
+              <Link to="#">S'inscrire</Link>
+            </li>
+            <li>
+              <Link to="#">Se connecter</Link>
+            </li>
           </ul>
         </nav>
       </div>

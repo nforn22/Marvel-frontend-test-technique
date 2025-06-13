@@ -46,7 +46,7 @@ function Favorites() {
         setError(
           error.response?.data?.message ||
           error.message ||
-          "Une erreur est survenue lors du chargement des favoris."
+          "An error has occurred while loading favorites."
         );
       } finally {
         setIsLoading(false);
@@ -90,12 +90,12 @@ function Favorites() {
 
   return (
     <div className="favorites-page">
-      <h1>Mes Favoris</h1>
+      <h1>My Favorites</h1>
       
       <section className="favorites-section">
-        <h2>Personnages Favoris</h2>
+        <h2>Favorites Characters</h2>
         {favoriteCharacters.length === 0 ? (
-          <p>Aucun personnage favori</p>
+          <p>No favorite character</p>
         ) : (
           <div className="favorites-grid">
             {favoriteCharacters.map((character) => {
@@ -149,9 +149,9 @@ function Favorites() {
       </section>
 
       <section className="favorites-section">
-        <h2>Comics Favoris</h2>
+        <h2>Favorites Comics</h2>
         {favoriteComics.length === 0 ? (
-          <p>Aucun comic favori</p>
+          <p>No favorite comic</p>
         ) : (
           <div className="favorites-grid">
             {favoriteComics.map((comic) => {
@@ -195,8 +195,8 @@ function Favorites() {
                       height={32}
                     />
                   </button>
-                  <h3>{comic.title || "Sans titre"}</h3>
-                  <p>{comic.description || "Pas de description."}</p>
+                  <h3>{comic.title || "No title"}</h3>
+                  <p>{comic.description || "No description."}</p>
                 </div>
               );
             })}

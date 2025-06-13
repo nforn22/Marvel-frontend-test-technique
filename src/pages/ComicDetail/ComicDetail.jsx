@@ -24,7 +24,7 @@ function ComicDetail() {
         setError(
           error.response?.data?.message ||
           error.message ||
-          "Une erreur est survenue lors du chargement du comic."
+          "An error has occurred while loading the comic."
         );
       } finally {
         setIsLoading(false);
@@ -47,7 +47,7 @@ function ComicDetail() {
   }
 
   if (!comic) {
-    return <div className="error-message">Comic non trouvé</div>;
+    return <div className="error-message">Comic not found</div>;
   }
 
   const thumbnailUrl = comic.thumbnail?.path && comic.thumbnail?.extension
@@ -57,7 +57,7 @@ function ComicDetail() {
   return (
     <div className="comic-detail-page">
       <button className="back-button" onClick={() => navigate(-1)}>
-        ← Retour
+        ← Back
       </button>
       
       <div className="comic-detail-container">
@@ -75,14 +75,14 @@ function ComicDetail() {
           
           {comic.description && (
             <div className="comic-description">
-              <h2>Description</h2>
+              <h2>Description :</h2>
               <p>{comic.description}</p>
             </div>
           )}
 
           {comic.prices && comic.prices.length > 0 && (
             <div className="comic-prices">
-              <h2>Prix</h2>
+              <h2>Prices :</h2>
               <ul>
                 {comic.prices.map((price, index) => (
                   <li key={index}>
@@ -95,7 +95,7 @@ function ComicDetail() {
 
           {comic.creators?.items && comic.creators.items.length > 0 && (
             <div className="comic-creators">
-              <h2>Créateurs</h2>
+              <h2>Creators :</h2>
               <ul>
                 {comic.creators.items.map((creator, index) => (
                   <li key={index}>
@@ -108,7 +108,7 @@ function ComicDetail() {
 
           {comic.characters?.items && comic.characters.items.length > 0 && (
             <div className="comic-characters">
-              <h2>Personnages</h2>
+              <h2>Characters :</h2>
               <ul>
                 {comic.characters.items.map((character, index) => (
                   <li key={index}>{character.name}</li>
@@ -119,7 +119,7 @@ function ComicDetail() {
 
           {comic.dates && comic.dates.length > 0 && (
             <div className="comic-dates">
-              <h2>Dates</h2>
+              <h2>Dates :</h2>
               <ul>
                 {comic.dates.map((date, index) => (
                   <li key={index}>
