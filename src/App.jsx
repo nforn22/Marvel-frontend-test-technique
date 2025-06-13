@@ -4,6 +4,7 @@ import Comics from './pages/Comics/Comics';
 import Favorites from './pages/Favorites/Favorites';
 import Home from './pages/Home/Home';
 import CharacterComics from './pages/CharacterComics/CharacterComics';
+import ComicDetail from './pages/ComicDetail/ComicDetail';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header/Header';
 import { useState } from 'react';
@@ -30,6 +31,7 @@ function App() {
         <Route path="/comics" element={<Comics search={searchComics} />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/characters/:characterId/comics" element={<CharacterComics />} />
+        <Route path="/comics/comic/:comicId" element={<ComicDetail />} />
       </Routes>
     </>
   )

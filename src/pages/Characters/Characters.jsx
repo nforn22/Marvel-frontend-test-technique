@@ -4,6 +4,7 @@ import { Circles } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import captainAmericaIcon from "../../assets/icons8-captain-america-64.png";
 import "./Characters.css";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
@@ -15,6 +16,11 @@ function Characters({ search }) {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
+  const [favorites, setFavorites] = useState(() => {
+    // charge les fav depuis localStorage
+    const stored = localStorage.getItem("favoriteCharacters");
+    return stored ? JSON.parse(stored) : [];
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,8 +49,21 @@ function Characters({ search }) {
     fetchCharacters();
   }, [page, search]);
 
+  // sauvegarder les favs dans localStorage à chaque changement
+  useEffect(() => {
+    localStorage.setItem("favoriteCharacters", JSON.stringify(favorites));
+  }, [favorites]);
+
   const handleCardClick = (characterId) => {
     navigate(`/characters/${characterId}/comics`);
+  };
+
+  const handleToggleFavorite = (characterId) => {
+    setFavorites((previous) =>
+      previous.includes(characterId)
+        ? previous.filter((id) => id !== characterId)
+        : [...previous, characterId]
+    );
   };
 
   const totalPages = Math.ceil(count / PAGE_SIZE);
@@ -69,14 +88,37 @@ function Characters({ search }) {
               <div
                 key={character._id}
                 className="character-card"
-                onClick={() => handleCardClick(character._id)}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", position: "relative" }}
               >
                 <img
                   src={`${character.thumbnail.path}/portrait_xlarge.${character.thumbnail.extension}`}
                   alt={character.name}
                   className="character-img"
+                  onClick={() => handleCardClick(character._id)}
                 />
+                <button
+                  className="favorite-btn"
+                  onClick={event => { event.stopPropagation(); handleToggleFavorite(character._id); }}
+                  style={{
+                    position: "absolute",
+                    top: 8,
+                    right: 8,
+                    background: "none",
+                    border: "none",
+                    padding: 0,
+                    cursor: "pointer",
+                    opacity: favorites.includes(character._id) ? 1 : 0.4,
+                    transition: "opacity 0.2s"
+                  }}
+                  aria-label={favorites.includes(character._id) ? "Remove from favorites" : "Add to favorites"}
+                >
+                  <img
+                    src={captainAmericaIcon}
+                    alt="Favorite"
+                    width={32}
+                    height={32}
+                  />
+                </button>
                 <h2 className="character-name">{character.name}</h2>
                 <p className="character-desc">
                   {character.description ? character.description : "No description."}

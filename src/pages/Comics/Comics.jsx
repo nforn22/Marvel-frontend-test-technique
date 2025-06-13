@@ -3,6 +3,8 @@ import axios from "axios";
 import { Circles } from "react-loader-spinner";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import captainAmericaIcon from "../../assets/icons8-captain-america-64.png";
+import { useNavigate } from "react-router-dom";
 import "./Comics.css";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
@@ -14,6 +16,11 @@ function Comics({ search }) {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
+  const [favorites, setFavorites] = useState(() => {
+    const stored = localStorage.getItem("favoriteComics");
+    return stored ? JSON.parse(stored) : [];
+  });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchComics = async () => {
@@ -41,6 +48,22 @@ function Comics({ search }) {
     fetchComics();
   }, [page, search]);
 
+  useEffect(() => {
+    localStorage.setItem("favoriteComics", JSON.stringify(favorites));
+  }, [favorites]);
+
+  const handleToggleFavorite = (comicId) => {
+    setFavorites((prev) =>
+      prev.includes(comicId)
+        ? prev.filter((id) => id !== comicId)
+        : [...prev, comicId]
+    );
+  };
+
+  const handleCardClick = (comicId) => {
+    navigate(`/comics/comic/${comicId}`);
+  };
+
   const totalPages = Math.ceil(count / PAGE_SIZE);
 
   const handleChange = (event, value) => {
@@ -60,12 +83,37 @@ function Comics({ search }) {
         <>
           <div className="comics-grid">
             {comics.map((comic) => (
-              <div key={comic._id} className="comic-card">
+              <div key={comic._id} className="comic-card" style={{ position: "relative" }}>
                 <img
                   src={`${comic.thumbnail.path}/portrait_xlarge.${comic.thumbnail.extension}`}
                   alt={comic.title}
                   className="comic-img"
+                  onClick={() => handleCardClick(comic._id)}
+                  style={{ cursor: "pointer" }}
                 />
+                <button
+                  className="favorite-btn"
+                  onClick={e => { e.stopPropagation(); handleToggleFavorite(comic._id); }}
+                  style={{
+                    position: "absolute",
+                    top: 8,
+                    right: 8,
+                    background: "none",
+                    border: "none",
+                    padding: 0,
+                    cursor: "pointer",
+                    opacity: favorites.includes(comic._id) ? 1 : 0.4,
+                    transition: "opacity 0.2s"
+                  }}
+                  aria-label={favorites.includes(comic._id) ? "Remove from favorites" : "Add to favorites"}
+                >
+                  <img
+                    src={captainAmericaIcon}
+                    alt="Favorite"
+                    width={32}
+                    height={32}
+                  />
+                </button>
                 <h2 className="comic-title">{comic.title}</h2>
                 <p className="comic-desc">
                   {comic.description ? comic.description : "No description."}
