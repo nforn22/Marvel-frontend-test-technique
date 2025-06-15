@@ -95,28 +95,16 @@ function Favorites() {
             <h2>Favorite Comics</h2>
             <div className="favorites-grid">
               {favoriteComics.length === 0 ? <p>No favorite comics.</p> : favoriteComics.map((comic) => (
-                <div key={comic._id} className="favorite-card" style={{ position: "relative" }}>
+                <div key={comic._id} className="favorite-card">
                   <img
                     src={`${comic.thumbnail.path}/portrait_xlarge.${comic.thumbnail.extension}`}
                     alt={comic.title}
-                    className="favorite-img"
+                    className="favorite-img favorite-img-pointer"
                     onClick={() => handleCardClick(comic._id, "comic")}
-                    style={{ cursor: "pointer" }}
                   />
                   <button
                     className="favorite-btn"
                     onClick={() => handleRemoveFavorite(comic._id, "comic")}
-                    style={{
-                      position: "absolute",
-                      top: 8,
-                      right: 8,
-                      background: "none",
-                      border: "none",
-                      padding: 0,
-                      cursor: "pointer",
-                      opacity: 1,
-                      transition: "opacity 0.2s"
-                    }}
                     aria-label="Remove from favorites"
                   >
                     <img
@@ -136,28 +124,16 @@ function Favorites() {
             <h2>Favorite Characters</h2>
             <div className="favorites-grid">
               {favoriteCharacters.length === 0 ? <p>No favorite characters.</p> : favoriteCharacters.map((character) => (
-                <div key={character._id} className="favorite-card" style={{ position: "relative" }}>
+                <div key={character._id} className="favorite-card">
                   <img
                     src={`${character.thumbnail.path}/portrait_xlarge.${character.thumbnail.extension}`}
                     alt={character.name}
-                    className="favorite-img"
+                    className="favorite-img favorite-img-pointer"
                     onClick={() => handleCardClick(character._id, "character")}
-                    style={{ cursor: "pointer" }}
                   />
                   <button
                     className="favorite-btn"
                     onClick={() => handleRemoveFavorite(character._id, "character")}
-                    style={{
-                      position: "absolute",
-                      top: 8,
-                      right: 8,
-                      background: "none",
-                      border: "none",
-                      padding: 0,
-                      cursor: "pointer",
-                      opacity: 1,
-                      transition: "opacity 0.2s"
-                    }}
                     aria-label="Remove from favorites"
                   >
                     <img

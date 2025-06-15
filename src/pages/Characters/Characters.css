@@ -1,0 +1,35 @@
+.centered-searchbar {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.character-card {
+  cursor: pointer;
+  position: relative;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.favorite-btn.inactive {
+  opacity: 0.4;
+}
+.favorite-btn.active {
+  opacity: 1;
+}
+
+.favorite-img-inactive {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}

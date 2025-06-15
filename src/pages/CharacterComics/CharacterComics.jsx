@@ -51,7 +51,7 @@ function CharacterComics() {
                 <img
                   src={`${comic.thumbnail.path}/portrait_xlarge.${comic.thumbnail.extension}`}
                   alt={comic.title}
-                  className="comic-img"
+                  className="comic-img comic-img-pointer"
                 />
                 <h2 className="comic-title">{comic.title}</h2>
                 <p className="comic-desc">

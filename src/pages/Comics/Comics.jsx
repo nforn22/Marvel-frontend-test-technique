@@ -103,7 +103,7 @@ function Comics() {
   return (
     <div className="comics-page">
       <h1>Marvel Comics</h1>
-      <div style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
+      <div className="centered-searchbar">
         <SearchBar onSearch={handleSearch} placeholder="Search comics..." />
       </div>
       {isLoading ? (
@@ -116,29 +116,17 @@ function Comics() {
         <>
           <div className="comics-grid">
             {comics.map((comic) => (
-              <div key={comic._id} className="comic-card" style={{ position: "relative" }}>
+              <div key={comic._id} className="comic-card">
                 <img
                   src={`${comic.thumbnail.path}/portrait_xlarge.${comic.thumbnail.extension}`}
                   alt={comic.title}
-                  className="comic-img"
+                  className="comic-img comic-img-pointer"
                   onClick={() => handleCardClick(comic._id)}
-                  style={{ cursor: "pointer" }}
                 />
                 {userToken ? (
                   <button
-                    className="favorite-btn"
+                    className={`favorite-btn ${favorites.includes(comic._id) ? "active" : "inactive"}`}
                     onClick={event => { event.stopPropagation(); handleToggleFavorite(comic._id); }}
-                    style={{
-                      position: "absolute",
-                      top: 8,
-                      right: 8,
-                      background: "none",
-                      border: "none",
-                      padding: 0,
-                      cursor: "pointer",
-                      opacity: favorites.includes(comic._id) ? 1 : 0.4,
-                      transition: "opacity 0.2s"
-                    }}
                     aria-label={favorites.includes(comic._id) ? "Remove from favorites" : "Add to favorites"}
                   >
                     <img
@@ -155,13 +143,7 @@ function Comics() {
                       alt="Login to add favorite"
                       width={32}
                       height={32}
-                      style={{
-                        position: "absolute",
-                        top: 8,
-                        right: 8,
-                        opacity: 0.4,
-                        transition: "opacity 0.2s"
-                      }}
+                      className="favorite-img-inactive"
                     />
                   </Link>
                 )}

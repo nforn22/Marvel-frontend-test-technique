@@ -1,0 +1,7 @@
+.comic-card {
+  position: relative;
+}
+
+.comic-img-pointer {
+  cursor: pointer;
+}
