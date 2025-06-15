@@ -3,8 +3,12 @@ import { Link, useLocation } from "react-router-dom";
 import marvelLogo from "../../assets/Marvel-logo.png";
 import "./Header.css";
 
-function Header({ onOpenSignupModal, onOpenLoginModal }) {
+function Header({ onOpenSignupModal, onOpenLoginModal, userToken, setUserToken }) {
   const location = useLocation();
+
+  const handleLogout = () => {
+    setUserToken(null);
+  };
 
   return (
     <header className="header">
@@ -22,15 +26,25 @@ function Header({ onOpenSignupModal, onOpenLoginModal }) {
             <li className={location.pathname === "/comics" ? "active" : ""}>
               <Link to="/comics">Comics</Link>
             </li>
-            <li className={location.pathname === "/favorites" ? "active" : ""}>
-              <Link to="/favorites">Favorites</Link>
-            </li>
-            <li>
-              <Link to="#" onClick={onOpenSignupModal}>S'inscrire</Link>
-            </li>
-            <li>
-              <Link to="#" onClick={onOpenLoginModal}>Se connecter</Link>
-            </li>
+            {userToken && (
+              <li className={location.pathname === "/favorites" ? "active" : ""}>
+                <Link to="/favorites">Favorites</Link>
+              </li>
+            )}
+            {userToken ? (
+              <li>
+                <button type="button" className="header-btn-link" onClick={handleLogout}>Se déconnecter</button>
+              </li>
+            ) : (
+              <>
+                <li>
+                  <Link to="#" onClick={onOpenSignupModal}>S'inscrire</Link>
+                </li>
+                <li>
+                  <Link to="#" onClick={onOpenLoginModal}>Se connecter</Link>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
       </div>
