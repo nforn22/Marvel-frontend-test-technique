@@ -71,25 +71,12 @@ function ComicDetail() {
         )}
         
         <div className="comic-info">
-          <h1>{comic.title || "Sans titre"}</h1>
+          <h1>{comic.title || "Untitled"}</h1>
           
           {comic.description && (
             <div className="comic-description">
               <h2>Description :</h2>
               <p>{comic.description}</p>
-            </div>
-          )}
-
-          {comic.prices && comic.prices.length > 0 && (
-            <div className="comic-prices">
-              <h2>Prices :</h2>
-              <ul>
-                {comic.prices.map((price, index) => (
-                  <li key={index}>
-                    {price.type}: ${price.price}
-                  </li>
-                ))}
-              </ul>
             </div>
           )}
 

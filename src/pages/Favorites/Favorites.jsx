@@ -26,17 +26,18 @@ function Favorites() {
         });
         const { comics, characters } = response.data;
 
-        // Récupérer les détails des comics favoris
         const comicsDetails = await Promise.all(
-          (comics || []).map(id =>
-            axios.get(`${API_URL}/comics/comic/${id}`).then(res => res.data)
-          )
+          (comics || []).map(async id => {
+            const res = await axios.get(`${API_URL}/comics/comic/${id}`);
+            return res.data;
+          })
         );
-        // Récupérer les détails des personnages favoris
+
         const charactersDetails = await Promise.all(
-          (characters || []).map(id =>
-            axios.get(`${API_URL}/characters/${id}`).then(res => res.data)
-          )
+          (characters || []).map(async id => {
+            const res = await axios.get(`${API_URL}/characters/${id}`);
+            return res.data;
+          })
         );
         setFavoriteComics(comicsDetails);
         setFavoriteCharacters(charactersDetails);

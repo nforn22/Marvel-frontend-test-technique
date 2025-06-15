@@ -61,7 +61,7 @@ function LoginModal({ onClose, setUserToken, onSwitchToSignup }) {
   return (
     <div className="modal-overlay" onClick={handleOverlayClick} tabIndex={-1}>
       <div className="modal login-modal" role="dialog" aria-modal="true">
-        <button className="modal-close" aria-label="Fermer" onClick={onClose}>
+        <button className="modal-close" aria-label="Close" onClick={onClose}>
           &times;
         </button>
         <h2 className="modal-title">Log in</h2>

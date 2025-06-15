@@ -68,7 +68,7 @@ function SignupModal({ onClose, setUserToken, onSwitchToLogin }) {
   return (
     <div className="modal-overlay" onClick={handleOverlayClick} tabIndex={-1}>
       <div className="modal signup-modal" role="dialog" aria-modal="true">
-        <button className="modal-close" aria-label="Fermer" onClick={onClose}>
+        <button className="modal-close" aria-label="Close" onClick={onClose}>
           &times;
         </button>
         <h2 className="modal-title">Sign up</h2>

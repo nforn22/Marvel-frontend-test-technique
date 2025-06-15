@@ -55,7 +55,6 @@ function Comics() {
         const response = await axios.get(`${API_URL}/favorites`, {
           headers: { Authorization: `Bearer ${Cookies.get("token")}` }
         });
-        console.log("[Comics.jsx] Réponse API /favorites (complet):", response.data);
         setFavorites(response.data.comics || []);
       } catch (error) {
         console.error("Error fetching favorites:", error);
@@ -66,24 +65,21 @@ function Comics() {
 
   const handleToggleFavorite = async (comicId) => {
     if (!userToken) {
-      alert("Vous devez être connecté pour ajouter des favoris.");
+      alert("You must be logged in to add favorites.");
       return;
     }
     try {
       if (favorites.includes(comicId)) {
-        console.log("[Comics.jsx] Suppression du favori:", comicId);
         await axios.delete(`${API_URL}/favorites/comics/${comicId}`, {
           headers: { Authorization: `Bearer ${userToken}` }
         });
         setFavorites(prev => prev.filter(id => id !== comicId));
       } else {
-        console.log("[Comics.jsx] Ajout du favori:", comicId);
         await axios.post(`${API_URL}/favorites/comics/${comicId}`, {}, {
           headers: { Authorization: `Bearer ${userToken}` }
         });
         setFavorites(prev => [...prev, comicId]);
       }
-      console.log("[Comics.jsx] Nouvel état des favoris:", favorites);
     } catch (error) {
       console.error("Error toggling favorite:", error);
     }
@@ -153,7 +149,7 @@ function Comics() {
                     />
                   </button>
                 ) : (
-                  <Link to="#" onClick={event => { event.stopPropagation(); alert("Vous devez être connecté pour ajouter des favoris."); }}>
+                  <Link to="#" onClick={event => { event.stopPropagation(); alert("You need to be logged in to add favorites."); }}>
                     <img
                       src={captainAmericaIcon}
                       alt="Login to add favorite"

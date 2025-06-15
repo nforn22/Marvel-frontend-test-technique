@@ -69,7 +69,7 @@ function Characters() {
 
   const handleToggleFavorite = async (characterId) => {
     if (!userToken) {
-      alert("Vous devez être connecté pour ajouter des favoris.");
+      alert("You need to be logged in to add favorites.");
       return;
     }
     try {
@@ -152,7 +152,7 @@ function Characters() {
                     />
                   </button>
                 ) : (
-                  <Link to="#" onClick={event => { event.stopPropagation(); alert("Vous devez être connecté pour ajouter des favoris."); }}>
+                  <Link to="#" onClick={event => { event.stopPropagation(); alert("You need to be logged in to add favorites."); }}>
                     <img
                       src={captainAmericaIcon}
                       alt="Login to add favorite"
