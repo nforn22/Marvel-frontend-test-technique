@@ -7,6 +7,7 @@ import captainAmericaIcon from "../../assets/icons8-captain-america-64.png";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import "./Comics.css";
+import Cookies from "js-cookie";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 const PAGE_SIZE = 100;
@@ -17,10 +18,7 @@ function Comics() {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
-  const [favorites, setFavorites] = useState(() => {
-    const stored = localStorage.getItem("favoriteComics");
-    return stored ? JSON.parse(stored) : [];
-  });
+  const [favorites, setFavorites] = useState([]);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
@@ -51,15 +49,35 @@ function Comics() {
   }, [page, search]);
 
   useEffect(() => {
-    localStorage.setItem("favoriteComics", JSON.stringify(favorites));
-  }, [favorites]);
+    const fetchFavorites = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/favorites`, {
+          headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+        });
+        setFavorites(response.data.favorites || []);
+      } catch (error) {
+        console.error("Error fetching favorites:", error);
+      }
+    };
+    fetchFavorites();
+  }, []);
 
-  const handleToggleFavorite = (comicId) => {
-    setFavorites((previous) =>
-      previous.includes(comicId)
-        ? previous.filter((id) => id !== comicId)
-        : [...previous, comicId]
-    );
+  const handleToggleFavorite = async (comicId) => {
+    try {
+      if (favorites.includes(comicId)) {
+        await axios.delete(`${API_URL}/favorites/${comicId}`, {
+          headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+        });
+        setFavorites(prev => prev.filter(id => id !== comicId));
+      } else {
+        await axios.post(`${API_URL}/favorites`, { comicId }, {
+          headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+        });
+        setFavorites(prev => [...prev, comicId]);
+      }
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
+    }
   };
 
   const handleCardClick = (comicId) => {

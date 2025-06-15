@@ -7,6 +7,7 @@ import Stack from '@mui/material/Stack';
 import captainAmericaIcon from "../../assets/icons8-captain-america-64.png";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import "./Characters.css";
+import Cookies from "js-cookie";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 const PAGE_SIZE = 100;
@@ -17,11 +18,7 @@ function Characters() {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
-  const [favorites, setFavorites] = useState(() => {
-    // charge les fav depuis localStorage
-    const stored = localStorage.getItem("favoriteCharacters");
-    return stored ? JSON.parse(stored) : [];
-  });
+  const [favorites, setFavorites] = useState([]);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
@@ -51,21 +48,40 @@ function Characters() {
     fetchCharacters();
   }, [page, search]);
 
-  // sauvegarder les favs dans localStorage à chaque changement
   useEffect(() => {
-    localStorage.setItem("favoriteCharacters", JSON.stringify(favorites));
-  }, [favorites]);
+    const fetchFavorites = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/favorites`, {
+          headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+        });
+        setFavorites(response.data.favorites || []);
+      } catch (error) {
+        console.error("Error fetching favorites:", error);
+      }
+    };
+    fetchFavorites();
+  }, []);
 
   const handleCardClick = (characterId) => {
     navigate(`/characters/${characterId}/comics`);
   };
 
-  const handleToggleFavorite = (characterId) => {
-    setFavorites((previous) =>
-      previous.includes(characterId)
-        ? previous.filter((id) => id !== characterId)
-        : [...previous, characterId]
-    );
+  const handleToggleFavorite = async (characterId) => {
+    try {
+      if (favorites.includes(characterId)) {
+        await axios.delete(`${API_URL}/favorites/${characterId}`, {
+          headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+        });
+        setFavorites(prev => prev.filter(id => id !== characterId));
+      } else {
+        await axios.post(`${API_URL}/favorites`, { characterId }, {
+          headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+        });
+        setFavorites(prev => [...prev, characterId]);
+      }
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
+    }
   };
 
   const totalPages = Math.ceil(count / PAGE_SIZE);
