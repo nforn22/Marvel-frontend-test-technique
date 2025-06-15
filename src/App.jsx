@@ -9,9 +9,11 @@ import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
+import SignupModal from './components/SignupModal';
 
 function App() {
   const [userToken, setUserToken] = useState(null);
+  const [showSignupModal, setShowSignupModal] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -31,7 +33,14 @@ function App() {
 
   return (
     <>
-      <Header userToken={userToken} setUserToken={handleSetUserToken} />
+      <Header userToken={userToken} setUserToken={handleSetUserToken} onOpenSignupModal={() => setShowSignupModal(true)} />
+      {showSignupModal && (
+        <SignupModal
+          onClose={() => setShowSignupModal(false)}
+          setUserToken={handleSetUserToken}
+          onSwitchToLogin={() => {}}
+        />
+      )}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/characters" element={<Characters />} />
