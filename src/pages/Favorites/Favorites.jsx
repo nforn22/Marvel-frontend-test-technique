@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Circles } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
-// import captainAmericaIcon from "../../assets/icons8-captain-america-64.png";
+import captainAmericaIcon from "../../assets/icons8-captain-america-64.png";
 import "./Favorites.css";
 import Cookies from "js-cookie";
 
@@ -94,7 +94,7 @@ function Favorites() {
             <h2>Favorite Comics</h2>
             <div className="favorites-grid">
               {favoriteComics.length === 0 ? <p>No favorite comics.</p> : favoriteComics.map((comic) => (
-                <div key={comic._id} className="favorite-card">
+                <div key={comic._id} className="favorite-card" style={{ position: "relative" }}>
                   <img
                     src={`${comic.thumbnail.path}/portrait_xlarge.${comic.thumbnail.extension}`}
                     alt={comic.title}
@@ -103,11 +103,27 @@ function Favorites() {
                     style={{ cursor: "pointer" }}
                   />
                   <button
-                    className="remove-favorite-btn"
+                    className="favorite-btn"
                     onClick={() => handleRemoveFavorite(comic._id, "comic")}
+                    style={{
+                      position: "absolute",
+                      top: 8,
+                      right: 8,
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                      cursor: "pointer",
+                      opacity: 1,
+                      transition: "opacity 0.2s"
+                    }}
                     aria-label="Remove from favorites"
                   >
-                    Remove
+                    <img
+                      src={captainAmericaIcon}
+                      alt="Remove favorite"
+                      width={32}
+                      height={32}
+                    />
                   </button>
                   <h3>{comic.title}</h3>
                   <p>{comic.description || "No description."}</p>
@@ -119,7 +135,7 @@ function Favorites() {
             <h2>Favorite Characters</h2>
             <div className="favorites-grid">
               {favoriteCharacters.length === 0 ? <p>No favorite characters.</p> : favoriteCharacters.map((character) => (
-                <div key={character._id} className="favorite-card">
+                <div key={character._id} className="favorite-card" style={{ position: "relative" }}>
                   <img
                     src={`${character.thumbnail.path}/portrait_xlarge.${character.thumbnail.extension}`}
                     alt={character.name}
@@ -128,11 +144,27 @@ function Favorites() {
                     style={{ cursor: "pointer" }}
                   />
                   <button
-                    className="remove-favorite-btn"
+                    className="favorite-btn"
                     onClick={() => handleRemoveFavorite(character._id, "character")}
+                    style={{
+                      position: "absolute",
+                      top: 8,
+                      right: 8,
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                      cursor: "pointer",
+                      opacity: 1,
+                      transition: "opacity 0.2s"
+                    }}
                     aria-label="Remove from favorites"
                   >
-                    Remove
+                    <img
+                      src={captainAmericaIcon}
+                      alt="Remove favorite"
+                      width={32}
+                      height={32}
+                    />
                   </button>
                   <h3>{character.name}</h3>
                   <p>{character.description || "No description."}</p>
