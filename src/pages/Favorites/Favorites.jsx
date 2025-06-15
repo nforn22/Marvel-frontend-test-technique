@@ -6,7 +6,7 @@ import captainAmericaIcon from "../../assets/icons8-captain-america-64.png";
 import "./Favorites.css";
 import Cookies from "js-cookie";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL || "https://site--marvel-backend--t29qzrn4njwx.code.run";
 
 function Favorites() {
   const [favoriteComics, setFavoriteComics] = useState([]);

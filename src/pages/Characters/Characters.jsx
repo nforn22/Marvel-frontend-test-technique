@@ -9,7 +9,7 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import "./Characters.css";
 import Cookies from "js-cookie";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL || "https://site--marvel-backend--t29qzrn4njwx.code.run";
 const PAGE_SIZE = 100;
 
 function Characters() {
