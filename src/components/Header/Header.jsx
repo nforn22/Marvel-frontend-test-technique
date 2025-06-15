@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import marvelLogo from "../../assets/Marvel-logo.png";
 import "./Header.css";
 
-function Header({ onOpenSignupModal }) {
+function Header({ onOpenSignupModal, onOpenLoginModal }) {
   const location = useLocation();
 
   return (
@@ -29,7 +29,7 @@ function Header({ onOpenSignupModal }) {
               <Link to="#" onClick={onOpenSignupModal}>S'inscrire</Link>
             </li>
             <li>
-              <Link to="#">Se connecter</Link>
+              <Link to="#" onClick={onOpenLoginModal}>Se connecter</Link>
             </li>
           </ul>
         </nav>

@@ -9,11 +9,13 @@ import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import SignupModal from './components/SignupModal';
+import SignupModal from './components/Modals/SignupModal';
+import LoginModal from './components/Modals/LoginModal';
 
 function App() {
   const [userToken, setUserToken] = useState(null);
   const [showSignupModal, setShowSignupModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -33,12 +35,19 @@ function App() {
 
   return (
     <>
-      <Header userToken={userToken} setUserToken={handleSetUserToken} onOpenSignupModal={() => setShowSignupModal(true)} />
+      <Header userToken={userToken} setUserToken={handleSetUserToken} onOpenSignupModal={() => setShowSignupModal(true)} onOpenLoginModal={() => setShowLoginModal(true)} />
       {showSignupModal && (
         <SignupModal
           onClose={() => setShowSignupModal(false)}
           setUserToken={handleSetUserToken}
-          onSwitchToLogin={() => {}}
+          onSwitchToLogin={() => { setShowSignupModal(false); setShowLoginModal(true); }}
+        />
+      )}
+      {showLoginModal && (
+        <LoginModal
+          onClose={() => setShowLoginModal(false)}
+          setUserToken={handleSetUserToken}
+          onSwitchToSignup={() => { setShowLoginModal(false); setShowSignupModal(true); }}
         />
       )}
       <Routes>
