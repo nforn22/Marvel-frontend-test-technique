@@ -5,7 +5,6 @@ import "./Home.css";
 function Home() {
   return (
     <div className="home-page">
-      {/* section hero */}
       <section className="hero-section">
         <div className="hero-content">
           <h1 className="hero-title">Marvel Explorer</h1>
@@ -24,7 +23,6 @@ function Home() {
         </div>
       </section>
 
-      {/* section fonctionnalités */}
       <section className="features-section">
         <h2 className="features-title">Explore Marvel's Universe</h2>
         <div className="features-grid">
@@ -55,7 +53,6 @@ function Home() {
         </div>
       </section>
 
-      {/* section statistiques */}
       <section className="stats-section">
         <div className="stats-container">
           <div className="stat-item">

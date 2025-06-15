@@ -7,11 +7,31 @@ import CharacterComics from './pages/CharacterComics/CharacterComics';
 import ComicDetail from './pages/ComicDetail/ComicDetail';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
+import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 function App() {
+  const [userToken, setUserToken] = useState(null);
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) setUserToken(token);
+  }, []);
+
+  // màj du token (connexion/déconnexion)
+  const handleSetUserToken = (token) => {
+    if (token) {
+      Cookies.set("token", token, { expires: 7 });
+      setUserToken(token);
+    } else {
+      Cookies.remove("token");
+      setUserToken(null);
+    }
+  };
+
   return (
     <>
-      <Header />
+      <Header userToken={userToken} setUserToken={handleSetUserToken} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/characters" element={<Characters />} />
