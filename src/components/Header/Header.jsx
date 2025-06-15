@@ -33,7 +33,7 @@ function Header({ onOpenSignupModal, onOpenLoginModal, userToken, setUserToken }
             )}
             {userToken ? (
               <li>
-                <button type="button" className="header-btn-link" onClick={handleLogout}>Se déconnecter</button>
+                <Link to="#" onClick={handleLogout}>Se déconnecter</Link>
               </li>
             ) : (
               <>

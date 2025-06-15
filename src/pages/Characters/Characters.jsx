@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Circles } from "react-loader-spinner";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import captainAmericaIcon from "../../assets/icons8-captain-america-64.png";
@@ -21,6 +21,7 @@ function Characters() {
   const [favorites, setFavorites] = useState([]);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  const userToken = Cookies.get("token");
 
   useEffect(() => {
     const fetchCharacters = async () => {
@@ -54,7 +55,7 @@ function Characters() {
         const response = await axios.get(`${API_URL}/favorites`, {
           headers: { Authorization: `Bearer ${Cookies.get("token")}` }
         });
-        setFavorites(response.data.favorites || []);
+        setFavorites(response.data.characters || []);
       } catch (error) {
         console.error("Error fetching favorites:", error);
       }
@@ -67,15 +68,19 @@ function Characters() {
   };
 
   const handleToggleFavorite = async (characterId) => {
+    if (!userToken) {
+      alert("Vous devez être connecté pour ajouter des favoris.");
+      return;
+    }
     try {
       if (favorites.includes(characterId)) {
-        await axios.delete(`${API_URL}/favorites/${characterId}`, {
-          headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+        await axios.delete(`${API_URL}/favorites/characters/${characterId}`, {
+          headers: { Authorization: `Bearer ${userToken}` }
         });
         setFavorites(prev => prev.filter(id => id !== characterId));
       } else {
-        await axios.post(`${API_URL}/favorites`, { characterId }, {
-          headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+        await axios.post(`${API_URL}/favorites/characters/${characterId}`, {}, {
+          headers: { Authorization: `Bearer ${userToken}` }
         });
         setFavorites(prev => [...prev, characterId]);
       }
@@ -122,29 +127,47 @@ function Characters() {
                   className="character-img"
                   onClick={() => handleCardClick(character._id)}
                 />
-                <button
-                  className="favorite-btn"
-                  onClick={event => { event.stopPropagation(); handleToggleFavorite(character._id); }}
-                  style={{
-                    position: "absolute",
-                    top: 8,
-                    right: 8,
-                    background: "none",
-                    border: "none",
-                    padding: 0,
-                    cursor: "pointer",
-                    opacity: favorites.includes(character._id) ? 1 : 0.4,
-                    transition: "opacity 0.2s"
-                  }}
-                  aria-label={favorites.includes(character._id) ? "Remove from favorites" : "Add to favorites"}
-                >
-                  <img
-                    src={captainAmericaIcon}
-                    alt="Favorite"
-                    width={32}
-                    height={32}
-                  />
-                </button>
+                {userToken ? (
+                  <button
+                    className="favorite-btn"
+                    onClick={event => { event.stopPropagation(); handleToggleFavorite(character._id); }}
+                    style={{
+                      position: "absolute",
+                      top: 8,
+                      right: 8,
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                      cursor: "pointer",
+                      opacity: favorites.includes(character._id) ? 1 : 0.4,
+                      transition: "opacity 0.2s"
+                    }}
+                    aria-label={favorites.includes(character._id) ? "Remove from favorites" : "Add to favorites"}
+                  >
+                    <img
+                      src={captainAmericaIcon}
+                      alt="Favorite"
+                      width={32}
+                      height={32}
+                    />
+                  </button>
+                ) : (
+                  <Link to="#" onClick={event => { event.stopPropagation(); alert("Vous devez être connecté pour ajouter des favoris."); }}>
+                    <img
+                      src={captainAmericaIcon}
+                      alt="Login to add favorite"
+                      width={32}
+                      height={32}
+                      style={{
+                        position: "absolute",
+                        top: 8,
+                        right: 8,
+                        opacity: 0.4,
+                        transition: "opacity 0.2s"
+                      }}
+                    />
+                  </Link>
+                )}
                 <h2 className="character-name">{character.name}</h2>
                 <p className="character-desc">
                   {character.description ? character.description : "No description."}

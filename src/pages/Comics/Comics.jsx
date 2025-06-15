@@ -4,7 +4,7 @@ import { Circles } from "react-loader-spinner";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import captainAmericaIcon from "../../assets/icons8-captain-america-64.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import "./Comics.css";
 import Cookies from "js-cookie";
@@ -21,6 +21,7 @@ function Comics() {
   const [favorites, setFavorites] = useState([]);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  const userToken = Cookies.get("token");
 
   useEffect(() => {
     const fetchComics = async () => {
@@ -54,7 +55,8 @@ function Comics() {
         const response = await axios.get(`${API_URL}/favorites`, {
           headers: { Authorization: `Bearer ${Cookies.get("token")}` }
         });
-        setFavorites(response.data.favorites || []);
+        console.log("[Comics.jsx] Réponse API /favorites (complet):", response.data);
+        setFavorites(response.data.comics || []);
       } catch (error) {
         console.error("Error fetching favorites:", error);
       }
@@ -63,18 +65,25 @@ function Comics() {
   }, []);
 
   const handleToggleFavorite = async (comicId) => {
+    if (!userToken) {
+      alert("Vous devez être connecté pour ajouter des favoris.");
+      return;
+    }
     try {
       if (favorites.includes(comicId)) {
-        await axios.delete(`${API_URL}/favorites/${comicId}`, {
-          headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+        console.log("[Comics.jsx] Suppression du favori:", comicId);
+        await axios.delete(`${API_URL}/favorites/comics/${comicId}`, {
+          headers: { Authorization: `Bearer ${userToken}` }
         });
         setFavorites(prev => prev.filter(id => id !== comicId));
       } else {
-        await axios.post(`${API_URL}/favorites`, { comicId }, {
-          headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+        console.log("[Comics.jsx] Ajout du favori:", comicId);
+        await axios.post(`${API_URL}/favorites/comics/${comicId}`, {}, {
+          headers: { Authorization: `Bearer ${userToken}` }
         });
         setFavorites(prev => [...prev, comicId]);
       }
+      console.log("[Comics.jsx] Nouvel état des favoris:", favorites);
     } catch (error) {
       console.error("Error toggling favorite:", error);
     }
@@ -119,29 +128,47 @@ function Comics() {
                   onClick={() => handleCardClick(comic._id)}
                   style={{ cursor: "pointer" }}
                 />
-                <button
-                  className="favorite-btn"
-                  onClick={event => { event.stopPropagation(); handleToggleFavorite(comic._id); }}
-                  style={{
-                    position: "absolute",
-                    top: 8,
-                    right: 8,
-                    background: "none",
-                    border: "none",
-                    padding: 0,
-                    cursor: "pointer",
-                    opacity: favorites.includes(comic._id) ? 1 : 0.4,
-                    transition: "opacity 0.2s"
-                  }}
-                  aria-label={favorites.includes(comic._id) ? "Remove from favorites" : "Add to favorites"}
-                >
-                  <img
-                    src={captainAmericaIcon}
-                    alt="Favorite"
-                    width={32}
-                    height={32}
-                  />
-                </button>
+                {userToken ? (
+                  <button
+                    className="favorite-btn"
+                    onClick={event => { event.stopPropagation(); handleToggleFavorite(comic._id); }}
+                    style={{
+                      position: "absolute",
+                      top: 8,
+                      right: 8,
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                      cursor: "pointer",
+                      opacity: favorites.includes(comic._id) ? 1 : 0.4,
+                      transition: "opacity 0.2s"
+                    }}
+                    aria-label={favorites.includes(comic._id) ? "Remove from favorites" : "Add to favorites"}
+                  >
+                    <img
+                      src={captainAmericaIcon}
+                      alt="Favorite"
+                      width={32}
+                      height={32}
+                    />
+                  </button>
+                ) : (
+                  <Link to="#" onClick={event => { event.stopPropagation(); alert("Vous devez être connecté pour ajouter des favoris."); }}>
+                    <img
+                      src={captainAmericaIcon}
+                      alt="Login to add favorite"
+                      width={32}
+                      height={32}
+                      style={{
+                        position: "absolute",
+                        top: 8,
+                        right: 8,
+                        opacity: 0.4,
+                        transition: "opacity 0.2s"
+                      }}
+                    />
+                  </Link>
+                )}
                 <h2 className="comic-title">{comic.title}</h2>
                 <p className="comic-desc">
                   {comic.description ? comic.description : "No description."}
