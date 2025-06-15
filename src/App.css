@@ -1,0 +1,89 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #1a1a1a;
+    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  
+  #root {
+    margin: 0;
+    padding: 0;
+    background: #1a1a1a;
+    min-height: 100vh;
+  }
+  
+  .App {
+    margin: 0;
+    padding: 0;
+    background: #1a1a1a;
+    min-height: 100vh;
+  }
+  
+  body, html, #root, .App {
+    border: none;
+    outline: none;
+  }
+  
+  .page-container {
+    background: #1a1a1a;
+    min-height: calc(100vh - 80px);
+    padding: 0;
+    margin: 0;
+  }
+  
+  *, *::before, *::after {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #2a2a2a;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #ed1d24;
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #ff6b6b;
+  }
+  
+  button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible {
+    outline: 2px solid #ed1d24;
+    outline-offset: 2px;
+  }
